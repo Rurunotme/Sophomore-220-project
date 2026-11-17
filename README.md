@@ -21,6 +21,23 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
+## API
+
+The JSON API uses Laravel Sanctum bearer tokens:
+
+| Method | Endpoint | Purpose | Authentication |
+| --- | --- | --- | --- |
+| `POST` | `/api/register` | Create an account and return a token | Public |
+| `POST` | `/api/login` | Authenticate and return a token | Public |
+| `GET` | `/api/user` | Return the authenticated user's profile | Bearer token |
+| `POST` | `/api/logout` | Revoke the current token | Bearer token |
+
+Registration requires `name`, `email`, `password`, and `password_confirmation`.
+Login requires `email` and `password`. Both endpoints accept an optional
+`device_name` for identifying the token. Send the returned token on protected
+requests as `Authorization: Bearer <token>`. Run `php artisan migrate` before
+using the API.
+
 ## Learning Laravel
 
 Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
