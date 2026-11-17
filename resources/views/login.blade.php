@@ -737,12 +737,62 @@
 
     document
       .getElementById("sign-in-form")
-      .addEventListener("submit", (event) => {
+      .addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        // Replace this demo handler with your authentication integration.
-        document.getElementById("form-message").textContent =
-          "This is a demo. Sign-in is not connected yet.";
+        const form = event.target;
+        const message = document.getElementById("form-message");
+
+        // Get form values
+        const email = form.elements["email"].value;
+        const password = form.elements["password"].value;
+
+        message.textContent = "Signing in...";
+
+        try {
+          const response = await fetch("/api/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify({
+              email: email,
+              password: password,
+              device_name: "Web Browser"
+            })
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            // Handle validation/authentication errors
+            message.textContent =
+              data.message || "Invalid email or password.";
+
+            return;
+          }
+
+          // Authentication successful
+          message.textContent = "Login successful!";
+
+          // Save the Sanctum token
+          sessionStorage.setItem("auth_token", data.token);
+
+          // Optional: Store user information
+          sessionStorage.setItem(
+            "user",
+            JSON.stringify(data.user)
+          );
+
+          // Redirect to dashboard
+          window.location.href = "/dashboard";
+
+        } catch (error) {
+          console.error("Login error:", error);
+          message.textContent =
+            "Unable to connect to the server.";
+        }
       });
   </script>
 </body>

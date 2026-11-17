@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Employee;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -15,20 +14,29 @@ class AuthController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:employees,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'phone' => ['required', 'string', 'max:20'],
+            'roleID' => ['required', 'integer', 'exists:roles,roleID'],
+            'departmentID' => ['nullable', 'integer', 'exists:departments,departmentID'],
             'device_name' => ['sometimes', 'required', 'string', 'max:255'],
         ]);
 
-        $user = User::create([
+        $employee = Employee::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => $validated['password'],
+            'phone' => $validated['phone'],
+            'roleID' => $validated['roleID'],
+            'departmentID' => $validated['departmentID'] ?? null,
         ]);
-        $token = $user->createToken($validated['device_name'] ?? 'api-token')->plainTextToken;
+
+        $token = $employee->createToken(
+            $validated['device_name'] ?? 'api-token'
+        )->plainTextToken;
 
         return response()->json([
-            'user' => $user,
+            'employee' => $employee,
             'token' => $token,
         ], 201);
     }
@@ -41,31 +49,46 @@ class AuthController extends Controller
             'device_name' => ['sometimes', 'required', 'string', 'max:255'],
         ]);
 
-        $user = User::where('email', $validated['email'])->first();
+        $employee = Employee::where('email', $validated['email'])->first();
 
-        if (! $user || ! Hash::check($validated['password'], $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+        if (
+            ! $employee ||
+            ! Hash::check($validated['password'], $employee->password)
+        ) {
+            return response()->json([
+                'message' => 'Invalid email or password.'
+            ], 401);
         }
 
-        $token = $user->createToken($validated['device_name'] ?? 'api-token')->plainTextToken;
+        if (! $employee->isCurrentEmployee) {
+            return response()->json([
+                'message' => 'This employee account is inactive.'
+            ], 403);
+        }
+
+        $token = $employee->createToken(
+            $validated['device_name'] ?? 'api-token'
+        )->plainTextToken;
 
         return response()->json([
-            'user' => $user,
+            'employee' => $employee,
             'token' => $token,
         ]);
     }
 
     public function user(Request $request): JsonResponse
     {
-        return response()->json(['user' => $request->user()]);
+        return response()->json([
+            'employee' => $request->user()
+        ]);
     }
 
     public function logout(Request $request): JsonResponse
     {
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json(['message' => 'Logged out successfully.']);
+        return response()->json([
+            'message' => 'Logged out successfully.'
+        ]);
     }
 }
