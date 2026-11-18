@@ -764,6 +764,7 @@
           });
 
           const data = await response.json();
+          const employee = data.employee;
 
           if (!response.ok) {
             // Handle validation/authentication errors
@@ -781,12 +782,17 @@
 
           // Optional: Store user information
           sessionStorage.setItem(
-            "user",
-            JSON.stringify(data.user)
+            "employee",
+            JSON.stringify(data.employee)
           );
 
           // Redirect to dashboard
-          window.location.href = "/dashboard";
+          if(Number(employee.roleID)===1){
+            window.location.href = "/admindash";
+          }
+          else{
+            window.location.href = "employeeportal";
+          }
 
         } catch (error) {
           console.error("Login error:", error);
