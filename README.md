@@ -1,76 +1,125 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Employease (SmartHR)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A web-based workforce management system for small businesses. Employease replaces spreadsheets and paper timecards with a single place to manage employees, track attendance, process leave requests, and run payroll.
 
-## About Laravel
+* **Purpose:** Small businesses often track people, hours, and pay in different tools, causing errors and extra admin work. Employease centralizes that data and provides employees with a self-service portal so there is less manual work for admins.
+* **Status:** Work in progress. Some features below are still being built.
+* **Team:** Kaden, Kay'ron, Adrian, Elizabeth (CSET 220)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 1. Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Employees
+* Admins can create, view, change, and delete employee profiles.
+* Stores employee information such as names, email addresses, phone numbers, departments, designations, and salary.
+* Allows admins to add, change, or delete profile pictures.
+* Administrators can search for employee profiles to view attendance and payroll history.
+* Administrators can filter employees by department, designation, salary, and attendance.
 
-## API
+### Attendance
+* Employees can clock in when beginning work and clock out when finishing work, saving each session as a record.
+* Total work hours for employees are automatically calculated.
+* Employees can submit leave requests with a reason, which administrators can manually approve or reject.
+* Administrators can view employee attendance records by date range.
 
-The JSON API uses Laravel Sanctum bearer tokens:
+### Payroll
+* Automatically calculates employee payroll using base salary, overtime hours, overtime rates, and applicable deductions.
+* Generates monthly employee pay slips in PDF format.
+* Maintains a history of employee payroll payments and allows administrators to mark payroll records as processed.
+* Employees can view and access their pay slips.
 
-| Method | Endpoint | Purpose | Authentication |
-| --- | --- | --- | --- |
-| `POST` | `/api/register` | Create an account and return a token | Public |
-| `POST` | `/api/login` | Authenticate and return a token | Public |
-| `GET` | `/api/user` | Return the authenticated user's profile | Bearer token |
-| `POST` | `/api/logout` | Revoke the current token | Bearer token |
+### Admin Dashboard
+* Displays the total number of employees working as well as who is present and absent for the current day.
+* Displays the total calculated payroll for the current month.
+* Displays a list of pending leave requests requiring admin approval.
+* Displays an attendance trends line graph using Chart.js to visualize historical attendance over time.
+* Displays a department distribution pie chart to show employees across different departments.
 
-Registration requires `name`, `email`, `password`, and `password_confirmation`.
-Login requires `email` and `password`. Both endpoints accept an optional
-`device_name` for identifying the token. Send the returned token on protected
-requests as `Authorization: Bearer <token>`. Run `php artisan migrate` before
-using the API.
+### Authentication and Employee Portal
+* Supports two user roles: **Administrator** and **Employee**.
+* Directs users to their designated dashboard based on their role.
+* Provides employees with access to an employee portal where they can view attendance, pay slips, and leave statuses.
+* Hashes and verifies passwords.
+* Validates login credentials and form submissions.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 2. Technology Stack
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Category | Technology |
+| :--- | :--- |
+| **Frontend** | Blade templates, HTML5, CSS3, JavaScript, Bootstrap 5 |
+| **Backend** | PHP 8.2+, Laravel 12 |
+| **Database** | MySQL (managed via phpMyAdmin or MySQL Workbench) |
+| **Authentication** | Laravel session auth for the web app, Laravel Sanctum for the JSON API |
+| **DevOps / Hosting** | EthioDeploy |
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 3. Prerequisites
 
-### Premium Partners
+Install the following before setting up the project:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+* PHP 8.2 or higher
+* Composer
+* Node.js and npm
+* MySQL 8+ (XAMPP is an easy way to get PHP and MySQL locally)
+* Git
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 4. Setup Instructions
 
-## Code of Conduct
+1. Clone the repository and open the project folder:
+   ```bash
+   git clone <your-repository-url>
+   cd <project-folder>
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+2. Install PHP and JavaScript dependencies:
+   ```bash
+   composer install
+   npm install
+   ```
 
-## Security Vulnerabilities
+3. Create your environment file and application key:
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+4. Create an empty MySQL database, then add its name and your login credentials to your `.env` file (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`).
 
-## License
+5. Run the database migrations to create the tables:
+   ```bash
+   php artisan migrate
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+6. Build the frontend assets and start the local development server:
+   ```bash
+   npm run build
+   php artisan serve
+   ```
+
+7. Open your browser and navigate to `http://127.0.0.1:8000`.
+
+---
+
+## 5. How to Use or Test the Application
+
+* Navigate to `/login` and sign in.
+* **Admins** are redirected to the admin dashboard; **Employees** are redirected to the employee portal.
+* **Test accounts:** *To be added*
+* To run the test suite:
+  ```bash
+  php artisan test
+  ```
+
+---
+
+## 6. Known Limitations
+
+* Still under development, so not every feature is fully functional yet.
+* Requires an active internet connection (for external assets/CDNs).
+* Only supported on modern browsers (Chrome, Firefox, Safari, Edge).
