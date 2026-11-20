@@ -788,7 +788,7 @@
 
           // Redirect to dashboard
           if(Number(employee.roleID)===1){
-            window.location.href = "/admindash";
+            window.location.href = "/admin";
           }
           else{
             window.location.href = "employeeportal";
