@@ -8,4 +8,11 @@ class Role extends Model
 {
     protected $primaryKey = 'roleID';
     public $timestamps = false;
+    protected $fillable = [
+        'title',
+        'salary',
+        'isSalary',
+        'overtimeRate',
+        'regHoursPerWeek',
+    ];
 }
