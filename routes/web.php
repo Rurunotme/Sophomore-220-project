@@ -1,19 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WebController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [WebController::class, 'home']);
 
-Route::get('/login',function(){
-    return view('login');
-});
+Route::get('/login', [WebController::class, 'viewlogin']);
 
-Route::get('/admindash',function(){
-    return view('admindash');
-});
+Route::post('/login', [Webcontroller::class, 'login']);
 
-Route::get('/employeeportal',function(){
-    return view('employeeportal');
-});
+Route::post('/logout', [Webcontroller::class, 'logout']);
+
+Route::get('/admin', [WebController::class, 'admin']);
+
+Route::get('/employeeportal', [WebController::class, 'employeeportal']);
+

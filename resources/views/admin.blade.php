@@ -386,6 +386,36 @@
     .empty-state { padding: 48px 24px; text-align: center; }
     .empty-state p { max-width: 460px; margin: 8px auto 0; }
 
+    .logout-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 36px;
+      padding: 8px 14px;
+
+      background: white;
+      color: #d14b5a;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+
+      font-size: 12px;
+      font-weight: 600;
+
+      transition: all 0.2s ease;
+    }
+
+    .logout-btn:hover {
+      background: #fff1f2;
+      border-color: #f5c2c7;
+      color: #b42332;
+    }
+
+    .logout-btn:active {
+      background: #ffe4e6;
+      transform: translateY(1px);
+    }
+
     @media (max-width: 1180px) {
       .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .content-grid { grid-template-columns: minmax(0, 1fr); }
@@ -476,18 +506,25 @@
       </nav>
 
       <div class="profile">
-        <div class="avatar" aria-hidden="true">OB</div>
+        <div class="avatar" aria-hidden="true">{{ collect(explode(' ', trim($user->name)))->filter()->map(fn($name) => strtoupper(substr($name, 0, 1)))->take(2)->join('') }}</div>
         <div>
-          <strong>Olivia Bennett</strong>
+          <strong>{{$user->name}}</strong>
           <small>Workspace admin</small>
         </div>
       </div>
+
+      <form id="logoutForm" action="/logout" method="POST">
+        @csrf
+        <button type="submit" id="logoutBtn" class="logout-btn">
+          Logout
+        </button>
+      </form>
     </aside>
 
     <div class="workspace">
       <header class="topbar">
         <span class="breadcrumb" id="breadcrumb">Overview</span>
-        <div class="avatar" aria-label="Olivia Bennett">OB</div>
+        <div class="avatar" aria-label="{{$user->name}}">{{ collect(explode(' ', trim($user->name)))->filter()->map(fn($name) => strtoupper(substr($name, 0, 1)))->take(2)->join('') }}</div>
       </header>
 
       <main id="main-content">
@@ -694,6 +731,7 @@
   </div>
 
   <script>
+
     const pages = {
       overview: {
         title: "Overview",

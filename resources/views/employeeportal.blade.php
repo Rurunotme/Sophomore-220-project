@@ -397,6 +397,36 @@
       line-height: 1.6;
     }
 
+    .logout-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 36px;
+      padding: 8px 14px;
+
+      background: white;
+      color: #d14b5a;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+
+      font-size: 12px;
+      font-weight: 600;
+
+      transition: all 0.2s ease;
+    }
+
+    .logout-btn:hover {
+      background: #fff1f2;
+      border-color: #f5c2c7;
+      color: #b42332;
+    }
+
+    .logout-btn:active {
+      background: #ffe4e6;
+      transform: translateY(1px);
+    }
+
     @media (max-width: 1100px) {
       .portal-grid { grid-template-columns: minmax(0, 1fr); }
     }
@@ -485,24 +515,31 @@
       </nav>
 
       <div class="profile">
-        <div class="avatar" aria-hidden="true">AM</div>
+        <div class="avatar" aria-hidden="true">{{ collect(explode(' ', trim($user->name)))->filter()->map(fn($name) => strtoupper(substr($name, 0, 1)))->take(2)->join('') }}</div>
         <div>
-          <strong>Alex Morgan</strong>
+          <strong>{{$user->name}}</strong>
           <small>Employee account</small>
         </div>
       </div>
+
+      <form id="logoutForm" action="/logout" method="POST">
+        @csrf
+        <button type="submit" id="logoutBtn" class="logout-btn">
+          Logout
+        </button>
+      </form>
     </aside>
 
     <div class="workspace">
       <header class="topbar">
         <span class="breadcrumb" id="breadcrumb">My workspace</span>
-        <div class="avatar" aria-label="Alex Morgan">AM</div>
+        <div class="avatar" aria-label="{{$user->name}}">{{ collect(explode(' ', trim($user->name)))->filter()->map(fn($name) => strtoupper(substr($name, 0, 1)))->take(2)->join('') }}</div>
       </header>
 
       <main>
         <div class="page-header">
           <div>
-            <h1 id="page-title" tabindex="-1">Good morning, Alex</h1>
+            <h1 id="page-title" tabindex="-1">Good morning, {{ explode(' ', trim($user->name))[0] }}</h1>
             <p id="page-description">Your workday, without the busywork.</p>
           </div>
 
@@ -766,6 +803,7 @@
   </div>
 
   <script>
+
     /*
      * Page registry:
      * Add a new entry and a matching data-panel section to extend the portal.
@@ -773,7 +811,7 @@
     const pages = {
       workspace: {
         label: "My workspace",
-        title: "Good morning, Alex",
+        title: "Good morning, {{ explode(' ', trim($user->name))[0] }}",
         description: "Your workday, without the busywork."
       },
       attendance: {
