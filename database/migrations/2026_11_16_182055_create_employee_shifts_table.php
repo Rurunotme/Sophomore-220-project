@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,8 +17,9 @@ return new class extends Migration
             $table->foreign('scheduleID')->references('scheduleID')->on('employee_schedules');
             $table->datetime('startTime');
             $table->datetime('endTime');
-            $table->check('endTime > startTime');     
         });
+
+        DB::statement('ALTER TABLE employee_shifts ADD CONSTRAINT chk_shift_times CHECK (endTime > startTime)');
     }
 
     /**

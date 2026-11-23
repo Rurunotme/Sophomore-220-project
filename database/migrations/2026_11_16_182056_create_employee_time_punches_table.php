@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,8 +17,9 @@ return new class extends Migration
             $table->foreign('employeeID')->references('employeeID')->on('employees');
             $table->datetime('punchIn')->useCurrent();
             $table->datetime('punchout')->nullable();
-             $table->check('punchout IS NULL OR punchout > punchIn');
         });
+
+        DB::statement('ALTER TABLE employee_time_punches ADD CONSTRAINT chk_punch_times CHECK (punchout IS NULL OR punchout > punchIn)');
     }
 
     /**

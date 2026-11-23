@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employee_paychecks');
+        Schema::dropIfExists('employee_paycheck');
     }
 };
