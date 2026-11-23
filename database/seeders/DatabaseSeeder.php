@@ -2,9 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Department;
+use App\Models\Employee;
+use App\Models\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,11 +18,30 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+    $department = Department::firstOrCreate(
+            ['departmentName' => 'Administration'],
+            ['description' => 'Management and administrative operations']
+        );
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        $role = Role::firstOrCreate(
+            ['title' => 'Manager'],
+            [
+                'salary' => 75000.00,
+                'isSalary' => true,
+                'overtimeRate' => null,
+                'regHoursPerWeek' => 40,
+            ]
+        );
+
+        Employee::firstOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'name' => 'Test User',
+                'password' => Hash::make('password'),
+                'phone' => '7175550100',
+                'departmentID' => $department->departmentID,
+                'roleID' => $role->roleID,
+            ]
+        );
     }
 }
