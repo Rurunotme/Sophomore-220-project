@@ -506,22 +506,25 @@
       </nav>
 
       <div class="profile">
-        <div class="avatar" aria-hidden="true">OB</div>
+        <div class="avatar" aria-hidden="true">{{ collect(explode(' ', trim($user->name)))->filter()->map(fn($name) => strtoupper(substr($name, 0, 1)))->take(2)->join('') }}</div>
         <div>
-          <strong>Olivia Bennett</strong>
+          <strong>{{$user->name}}</strong>
           <small>Workspace admin</small>
         </div>
       </div>
 
-      <button type="button" id="logoutBtn" class="logout-btn">
-        Logout
-      </button>
+      <form id="logoutForm" action="/logout" method="POST">
+        @csrf
+        <button type="submit" id="logoutBtn" class="logout-btn">
+          Logout
+        </button>
+      </form>
     </aside>
 
     <div class="workspace">
       <header class="topbar">
         <span class="breadcrumb" id="breadcrumb">Overview</span>
-        <div class="avatar" aria-label="Olivia Bennett">OB</div>
+        <div class="avatar" aria-label="{{$user->name}}">{{ collect(explode(' ', trim($user->name)))->filter()->map(fn($name) => strtoupper(substr($name, 0, 1)))->take(2)->join('') }}</div>
       </header>
 
       <main id="main-content">
@@ -728,15 +731,6 @@
   </div>
 
   <script>
-    document.getElementById("logoutBtn").addEventListener("click", async () => {
-
-      // Clear stored employee information
-      sessionStorage.clear();
-
-      // Redirect to login page
-      window.location.href = "/login";
-
-    });
 
     const pages = {
       overview: {

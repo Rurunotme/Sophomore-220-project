@@ -515,28 +515,31 @@
       </nav>
 
       <div class="profile">
-        <div class="avatar" aria-hidden="true">AM</div>
+        <div class="avatar" aria-hidden="true">{{ collect(explode(' ', trim($user->name)))->filter()->map(fn($name) => strtoupper(substr($name, 0, 1)))->take(2)->join('') }}</div>
         <div>
-          <strong>Alex Morgan</strong>
+          <strong>{{$user->name}}</strong>
           <small>Employee account</small>
         </div>
       </div>
 
-      <button type="button" id="logoutBtn" class="logout-btn">
-        Logout
-      </button>
+      <form id="logoutForm" action="/logout" method="POST">
+        @csrf
+        <button type="submit" id="logoutBtn" class="logout-btn">
+          Logout
+        </button>
+      </form>
     </aside>
 
     <div class="workspace">
       <header class="topbar">
         <span class="breadcrumb" id="breadcrumb">My workspace</span>
-        <div class="avatar" aria-label="Alex Morgan">AM</div>
+        <div class="avatar" aria-label="{{$user->name}}">{{ collect(explode(' ', trim($user->name)))->filter()->map(fn($name) => strtoupper(substr($name, 0, 1)))->take(2)->join('') }}</div>
       </header>
 
       <main>
         <div class="page-header">
           <div>
-            <h1 id="page-title" tabindex="-1">Good morning, Alex</h1>
+            <h1 id="page-title" tabindex="-1">Good morning, {{ explode(' ', trim($user->name))[0] }}</h1>
             <p id="page-description">Your workday, without the busywork.</p>
           </div>
 
@@ -800,15 +803,6 @@
   </div>
 
   <script>
-    document.getElementById("logoutBtn").addEventListener("click", async () => {
-
-      // Clear stored employee information
-      sessionStorage.clear();
-
-      // Redirect to login page
-      window.location.href = "/login";
-
-    });
 
     /*
      * Page registry:
@@ -817,7 +811,7 @@
     const pages = {
       workspace: {
         label: "My workspace",
-        title: "Good morning, Alex",
+        title: "Good morning, {{ explode(' ', trim($user->name))[0] }}",
         description: "Your workday, without the busywork."
       },
       attendance: {
