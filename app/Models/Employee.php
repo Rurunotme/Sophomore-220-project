@@ -14,6 +14,8 @@ class Employee extends Authenticatable
 
     protected $primaryKey = 'employeeID';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'name',
         'password',
@@ -21,7 +23,7 @@ class Employee extends Authenticatable
         'phone',
         'departmentID',
         'roleID',
-        'isCurrentEmployee'
+        'isCurrentEmployee',
     ];
 
     protected $hidden = [

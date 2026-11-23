@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employees', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('profile_pictures', function (Blueprint $table) {
+            $table->unsignedInteger('employeeID')->primary();
+            $table->foreign('employeeID')->references('employeeID')->on('employees');
+            $table->binary('pictureBlob');
+            $table->string('imageType');
         });
     }
 
@@ -22,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employees');
+        Schema::dropIfExists('profile_pictures');
     }
 };
