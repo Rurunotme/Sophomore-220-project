@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employee_paycheck', function (Blueprint $table) {
+        Schema::create('employee_paychecks', function (Blueprint $table) {
             $table->increments('paycheckID');
             $table->unsignedInteger('employeeID');
             $table->foreign('employeeID')->references('employeeID')->on('employees');
