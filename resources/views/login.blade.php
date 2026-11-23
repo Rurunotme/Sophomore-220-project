@@ -630,7 +630,8 @@
           </p>
         </header>
 
-        <form id="sign-in-form" method="post">
+        <form action="/login" id="sign-in-form" method="post">
+          @csrf
           <fieldset class="role-field">
             <legend>Your role</legend>
             <div class="role-selector">
@@ -718,88 +719,25 @@
       </p>
     </section>
   </main>
-
   <script>
-    const password = document.getElementById("password");
-    const toggle = document.getElementById("password-toggle");
+    
+    const passwordInput = document.getElementById("password");
+    const passwordToggle = document.getElementById("password-toggle");
 
-    toggle.addEventListener("click", () => {
-      const showPassword = password.type === "password";
+    passwordToggle.addEventListener("click", () => {
+        const isPassword = passwordInput.type === "password";
 
-      password.type = showPassword ? "text" : "password";
-      toggle.textContent = showPassword ? "Hide" : "Show";
-      toggle.setAttribute("aria-pressed", String(showPassword));
-      toggle.setAttribute(
-        "aria-label",
-        showPassword ? "Hide password" : "Show password"
-      );
+        passwordInput.type = isPassword ? "text" : "password";
+
+        passwordToggle.textContent = isPassword ? "Hide" : "Show";
+
+        passwordToggle.setAttribute(
+            "aria-label",
+            isPassword ? "Hide password" : "Show password"
+        );
+
+        passwordToggle.setAttribute("aria-pressed", isPassword);
     });
-
-    document
-      .getElementById("sign-in-form")
-      .addEventListener("submit", async (event) => {
-        event.preventDefault();
-
-        const form = event.target;
-        const message = document.getElementById("form-message");
-
-        // Get form values
-        const email = form.elements["email"].value;
-        const password = form.elements["password"].value;
-
-        message.textContent = "Signing in...";
-
-        try {
-          const response = await fetch("/api/login", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Accept": "application/json"
-            },
-            body: JSON.stringify({
-              email: email,
-              password: password,
-              device_name: "Web Browser"
-            })
-          });
-
-          const data = await response.json();
-          const employee = data.employee;
-
-          if (!response.ok) {
-            // Handle validation/authentication errors
-            message.textContent =
-              data.message || "Invalid email or password.";
-
-            return;
-          }
-
-          // Authentication successful
-          message.textContent = "Login successful!";
-
-          // Save the Sanctum token
-          sessionStorage.setItem("auth_token", data.token);
-
-          // Optional: Store user information
-          sessionStorage.setItem(
-            "employee",
-            JSON.stringify(data.employee)
-          );
-
-          // Redirect to dashboard
-          if(Number(employee.roleID)===1){
-            window.location.href = "/admin";
-          }
-          else{
-            window.location.href = "employeeportal";
-          }
-
-        } catch (error) {
-          console.error("Login error:", error);
-          message.textContent =
-            "Unable to connect to the server.";
-        }
-      });
   </script>
 </body>
 </html>
