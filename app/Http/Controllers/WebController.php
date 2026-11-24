@@ -30,10 +30,10 @@ class WebController extends Controller
                 return view('login');
             }
             if($user->roleID===1){
-                return redirect('/admin');
+                return redirect('admin/overview');
             }
             else{
-                return redirect('/employeeportal');
+                return redirect('employee/workspace');
             }
         }
         return view('login');
@@ -46,21 +46,5 @@ class WebController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/login');
-    }
-
-    public function admin(){
-        $user = Auth::user();
-        if (!$user||$user->roleID!=1){
-            return redirect('/login');
-        }
-        return view('admin',compact('user'));
-    }
-
-    public function employeeportal(){
-        $user = Auth::user();
-        if(!$user|| $user->roleID===1){
-            return redirect('/login');
-        }
-        return view('employeeportal',compact('user'));
     }
 }
