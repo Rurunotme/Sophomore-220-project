@@ -479,11 +479,10 @@
 
   <div class="app">
     <aside class="sidebar">
-    <p>
+      <a class="brand" href="{{ route('admin.overview') }}">
         <span class="brand-mark" aria-hidden="true">e</span>
         employease
-    </p>
-    <!-- make p tag into link to admin overview -->
+      </a>
 
       <p class="nav-label">Workspace</p>
 
@@ -517,7 +516,13 @@
       </nav>
 
       <div class="profile">
-        <div class="avatar" aria-hidden="true">{{ $userInitials }}</div>
+        <img
+          class="avatar"
+          src="{{ route('employee.picture', $user->employeeID) }}"
+          alt="{{ $user->name }}"
+          onerror="this.hidden = true; this.nextElementSibling.hidden = false;"
+        >
+        <div class="avatar" aria-hidden="true" hidden>{{ $userInitials }}</div>
         <div>
           <strong>{{ $user->name }}</strong>
           <small>Workspace admin</small>
@@ -535,7 +540,13 @@
     <div class="workspace">
       <header class="topbar">
         <span class="breadcrumb" id="breadcrumb">@yield('title', 'Overview')</span>
-        <div class="avatar" aria-label="{{ $user->name }}">{{ $userInitials }}</div>
+        <img
+          class="avatar"
+          src="{{ route('employee.picture', $user->employeeID) }}"
+          alt="{{ $user->name }}"
+          onerror="this.hidden = true; this.nextElementSibling.hidden = false;"
+        >
+        <div class="avatar" aria-hidden="true" hidden>{{ $userInitials }}</div>
       </header>
 
       <main id="main-content">
