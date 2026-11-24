@@ -95,7 +95,7 @@
           <p>3 requests need your attention</p>
         </div>
         <!-- Will need to fix this link -->
-        <p class="text-link">View all →</p> 
+          <a class="text-link" href="{{ route('admin.leave-requests') }}">View all →</a>
       </div>
 
       <div class="table-scroll">
