@@ -8,4 +8,8 @@ class EmployeeSchedule extends Model
 {
     protected $primaryKey = 'scheduleID';
     public $timestamps = false;  
+    protected $fillable = [
+    'employeeID',
+    'scheduleMonth',
+];
 }
