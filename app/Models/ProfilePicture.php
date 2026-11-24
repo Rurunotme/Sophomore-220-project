@@ -9,4 +9,9 @@ class ProfilePicture extends Model
     protected $primaryKey = 'employeeID';
     public $incrementing = false;
     public $timestamps = false;
+    protected $fillable = [
+    'employeeID',
+    'pictureBlob',
+    'imageType',
+];
 }

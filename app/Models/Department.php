@@ -8,4 +8,8 @@ class Department extends Model
 {
     protected $primaryKey = 'departmentID';
     public $timestamps = false;
+    protected $fillable = [
+        'departmentName',
+        'description',
+    ];
 }
