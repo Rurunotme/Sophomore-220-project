@@ -8,4 +8,9 @@ class EmployeeTimePunch extends Model
 {
     protected $primaryKey = 'punchID';
     public $timestamps = false;
+    protected $fillable = [
+    'employeeID',
+    'punchIn',
+    'punchout',
+];
 }
