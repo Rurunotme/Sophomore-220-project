@@ -525,7 +525,13 @@
       </nav>
 
       <div class="profile">
-        <div class="avatar" aria-hidden="true">{{ $userInitials }}</div>
+        <img
+          class="avatar"
+          src="{{ route('employee.picture', $user->employeeID) }}"
+          alt="{{ $user->name }}"
+          onerror="this.hidden = true; this.nextElementSibling.hidden = false;"
+        >
+        <div class="avatar" aria-hidden="true" hidden>{{ $userInitials }}</div>
         <div>
           <strong>{{ $user->name }}</strong>
           <small>Employee account</small>
@@ -543,7 +549,13 @@
     <div class="workspace">
       <header class="topbar">
         <span class="breadcrumb" id="breadcrumb">@yield('title', 'My workspace')</span>
-        <div class="avatar" aria-label="{{ $user->name }}">{{ $userInitials }}</div>
+        <img
+          class="avatar"
+          src="{{ route('employee.picture', $user->employeeID) }}"
+          alt="{{ $user->name }}"
+          onerror="this.hidden = true; this.nextElementSibling.hidden = false;"
+        >
+        <div class="avatar" aria-hidden="true" hidden>{{ $userInitials }}</div>
       </header>
 
       <main>
