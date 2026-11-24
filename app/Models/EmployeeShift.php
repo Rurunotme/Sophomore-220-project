@@ -8,4 +8,9 @@ class EmployeeShift extends Model
 {
     protected $primaryKey = 'shiftID';
     public $timestamps = false;
+    protected $fillable = [
+    'scheduleID',
+    'startTime',
+    'endTime',
+];
 }
