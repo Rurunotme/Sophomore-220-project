@@ -4,6 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Department;
+use App\Models\Employee;
+use App\Models\EmployeeTimePunch;
+use App\Models\LeaveRequest;
+use Carbon\Carbon;                 // Laravel's date/time tool
+use Illuminate\Pagination\LengthAwarePaginator; // splits the table into pages
+
 
 class AdminController extends Controller
 {
